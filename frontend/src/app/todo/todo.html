@@ -1,0 +1,71 @@
+<section class="todo-app">
+  <h1>Todo</h1>
+
+  <form class="todo-form" (submit)="addTodo(); $event.preventDefault()">
+    <input
+      type="text"
+      placeholder="Thêm việc cần làm..."
+      [ngModel]="newTitle()"
+      (ngModelChange)="newTitle.set($event)"
+      name="newTitle"
+    />
+    <button type="submit">Thêm</button>
+  </form>
+
+  @if (todos().length > 0) {
+    <div class="filters">
+      <button
+        [class.active]="filter() === 'all'"
+        (click)="setFilter('all')"
+      >
+        Tất cả
+      </button>
+      <button
+        [class.active]="filter() === 'active'"
+        (click)="setFilter('active')"
+      >
+        Chưa xong
+      </button>
+      <button
+        [class.active]="filter() === 'done'"
+        (click)="setFilter('done')"
+      >
+        Đã xong
+      </button>
+    </div>
+
+    <ul class="todo-list">
+      @for (todo of filteredTodos(); track todo.id) {
+        <li [class.done]="todo.done">
+          <label>
+            <input
+              type="checkbox"
+              [checked]="todo.done"
+              (change)="toggleTodo(todo.id)"
+            />
+            <span>{{ todo.title }}</span>
+          </label>
+          <button
+            class="remove"
+            type="button"
+            (click)="removeTodo(todo.id)"
+            aria-label="Xóa"
+          >
+            ✕
+          </button>
+        </li>
+      } @empty {
+        <li class="empty">Không có việc nào ở mục này</li>
+      }
+    </ul>
+
+    <footer class="todo-footer">
+      <span>{{ remainingCount() }} việc còn lại</span>
+      <button type="button" (click)="clearCompleted()">
+        Xóa việc đã xong
+      </button>
+    </footer>
+  } @else {
+    <p class="empty-state">Chưa có việc nào. Thêm một việc mới nhé!</p>
+  }
+</section>
