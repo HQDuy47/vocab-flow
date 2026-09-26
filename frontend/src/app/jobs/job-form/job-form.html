@@ -1,30 +1,30 @@
 <section class="job-form-page">
   <div class="job-form-card">
-    <h1>{{ isEditMode() ? 'Sửa job' : 'Thêm job mới' }}</h1>
+    <h1>{{ isEditMode() ? 'Edit job' : 'Add new job' }}</h1>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <label>
-        Công ty
+        Company
         <input type="text" formControlName="company" />
         @if (
           form.controls.company.invalid && form.controls.company.touched
         ) {
-          <span class="error">Bắt buộc nhập công ty</span>
+          <span class="error">Company is required</span>
         }
       </label>
 
       <label>
-        Vị trí
+        Position
         <input type="text" formControlName="position" />
         @if (
           form.controls.position.invalid && form.controls.position.touched
         ) {
-          <span class="error">Bắt buộc nhập vị trí</span>
+          <span class="error">Position is required</span>
         }
       </label>
 
       <label>
-        Trạng thái
+        Status
         <select formControlName="status">
           @for (s of statuses; track s.value) {
             <option [value]="s.value">{{ s.label }}</option>
@@ -33,26 +33,26 @@
       </label>
 
       <label>
-        Ngày nộp
+        Applied on
         <input type="date" formControlName="appliedDate" />
       </label>
 
       <label>
-        Link tin tuyển dụng (không bắt buộc)
+        Job posting link (optional)
         <input type="url" formControlName="link" placeholder="https://..." />
       </label>
 
       <label>
-        Ghi chú (không bắt buộc)
+        Notes (optional)
         <textarea formControlName="notes" rows="3"></textarea>
       </label>
 
       <div class="form-actions">
         <button type="button" class="btn-secondary" (click)="cancel()">
-          Hủy
+          Cancel
         </button>
         <button type="submit" class="btn-primary">
-          {{ isEditMode() ? 'Lưu' : 'Thêm' }}
+          {{ isEditMode() ? 'Save' : 'Add' }}
         </button>
       </div>
     </form>

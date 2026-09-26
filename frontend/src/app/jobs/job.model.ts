@@ -11,8 +11,8 @@ export interface JobApplication {
 }
 
 export const JOB_STATUSES: { value: JobStatus; label: string }[] = [
-  { value: 'applied', label: 'Đã nộp' },
-  { value: 'interview', label: 'Phỏng vấn' },
+  { value: 'applied', label: 'Applied' },
+  { value: 'interview', label: 'Interview' },
   { value: 'offer', label: 'Offer' },
-  { value: 'rejected', label: 'Từ chối' },
+  { value: 'rejected', label: 'Rejected' },
 ];

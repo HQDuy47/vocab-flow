@@ -1,21 +1,21 @@
 <section class="job-list-page">
   <header class="page-header">
-    <h1>Quản lý Apply Job</h1>
-    <a class="btn-primary-pill" routerLink="/jobs/add">+ Thêm job</a>
+    <h1>Job Applications</h1>
+    <a class="btn-primary-pill" routerLink="/jobs/add">+ Add job</a>
   </header>
 
   <div class="stats">
     <div class="stat-card">
       <span class="stat-card__value">{{ jobs().length }}</span>
-      <span class="stat-card__label">Tổng</span>
+      <span class="stat-card__label">Total</span>
     </div>
     <div class="stat-card">
       <span class="stat-card__value">{{ statusCounts().applied }}</span>
-      <span class="stat-card__label">Đã nộp</span>
+      <span class="stat-card__label">Applied</span>
     </div>
     <div class="stat-card">
       <span class="stat-card__value">{{ statusCounts().interview }}</span>
-      <span class="stat-card__label">Phỏng vấn</span>
+      <span class="stat-card__label">Interview</span>
     </div>
     <div class="stat-card stat-card--highlight">
       <span class="stat-card__value">{{ statusCounts().offer }}</span>
@@ -23,14 +23,14 @@
     </div>
     <div class="stat-card">
       <span class="stat-card__value">{{ statusCounts().rejected }}</span>
-      <span class="stat-card__label">Từ chối</span>
+      <span class="stat-card__label">Rejected</span>
     </div>
   </div>
 
   <div class="job-table-card">
     <div class="tabs">
       <button [class.active]="filter() === 'all'" (click)="setFilter('all')">
-        Tất cả
+        All
       </button>
       @for (s of statuses; track s.value) {
         <button
@@ -46,10 +46,10 @@
       <table class="job-table">
         <thead>
           <tr>
-            <th>Công ty</th>
-            <th>Vị trí</th>
-            <th>Ngày nộp</th>
-            <th>Trạng thái</th>
+            <th>Company</th>
+            <th>Position</th>
+            <th>Applied on</th>
+            <th>Status</th>
             <th>Link</th>
             <th></th>
           </tr>
@@ -81,16 +81,18 @@
               </td>
               <td class="actions">
                 <a class="text-link" [routerLink]="['/jobs', job.id, 'edit']"
-                  >Sửa</a
+                  >Edit</a
                 >
-                <button type="button" (click)="removeJob(job.id)">Xóa</button>
+                <button type="button" (click)="removeJob(job.id)">
+                  Delete
+                </button>
               </td>
             </tr>
           }
         </tbody>
       </table>
     } @else {
-      <p class="empty-state">Chưa có job nào ở mục này.</p>
+      <p class="empty-state">No jobs in this filter yet.</p>
     }
   </div>
 </section>

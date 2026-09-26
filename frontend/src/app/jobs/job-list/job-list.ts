@@ -39,7 +39,7 @@ export class JobList {
   }
 
   protected removeJob(id: string): void {
-    if (confirm('Xóa job này khỏi danh sách?')) {
+    if (confirm('Remove this job from the list?')) {
       this.jobService.removeJob(id);
     }
   }
