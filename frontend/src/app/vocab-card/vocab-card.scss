@@ -1,0 +1,36 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  .vocab-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    background-color: aliceblue;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    &__word {
+      font-size: large;
+      font-weight: 600;
+    }
+
+    &__meaning {
+      font-size: large;
+      font-weight: 500;
+    }
+
+    &__example {
+      font-size: medium;
+      font-weight: 500;
+    }
+  }
+}

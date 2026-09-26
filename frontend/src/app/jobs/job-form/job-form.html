@@ -1,0 +1,56 @@
+<section class="job-form-page">
+  <h1>{{ isEditMode() ? 'Sửa job' : 'Thêm job mới' }}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Công ty
+      <input type="text" formControlName="company" />
+      @if (
+        form.controls.company.invalid && form.controls.company.touched
+      ) {
+        <span class="error">Bắt buộc nhập công ty</span>
+      }
+    </label>
+
+    <label>
+      Vị trí
+      <input type="text" formControlName="position" />
+      @if (
+        form.controls.position.invalid && form.controls.position.touched
+      ) {
+        <span class="error">Bắt buộc nhập vị trí</span>
+      }
+    </label>
+
+    <label>
+      Trạng thái
+      <select formControlName="status">
+        @for (s of statuses; track s.value) {
+          <option [value]="s.value">{{ s.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Ngày nộp
+      <input type="date" formControlName="appliedDate" />
+    </label>
+
+    <label>
+      Link tin tuyển dụng (không bắt buộc)
+      <input type="url" formControlName="link" placeholder="https://..." />
+    </label>
+
+    <label>
+      Ghi chú (không bắt buộc)
+      <textarea formControlName="notes" rows="3"></textarea>
+    </label>
+
+    <div class="form-actions">
+      <button type="button" (click)="cancel()">Hủy</button>
+      <button type="submit" class="btn-primary">
+        {{ isEditMode() ? 'Lưu' : 'Thêm' }}
+      </button>
+    </div>
+  </form>
+</section>

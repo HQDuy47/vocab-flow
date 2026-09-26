@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Todo } from './todo/todo';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Todo],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
