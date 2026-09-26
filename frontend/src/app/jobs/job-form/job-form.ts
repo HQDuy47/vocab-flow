@@ -1,12 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { JOB_STATUSES, JobStatus } from '../job.model';
-import { JobService } from '../job.service';
+import { JOB_STATUSES, JobApplication, JobStatus } from '../job.model';
 
 @Component({
   selector: 'app-job-form',
@@ -16,15 +14,14 @@ import { JobService } from '../job.service';
 })
 export class JobForm {
   private readonly fb = inject(FormBuilder);
-  private readonly jobService = inject(JobService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
+
+  readonly job = input<JobApplication | null>(null);
+  readonly save = output<Omit<JobApplication, 'id'>>();
+  readonly cancelled = output<void>();
 
   protected readonly statuses = JOB_STATUSES;
-  private readonly editId = signal<string | null>(
-    this.route.snapshot.paramMap.get('id'),
-  );
-  protected readonly isEditMode = computed(() => this.editId() !== null);
+  protected readonly isEditMode = computed(() => this.job() !== null);
+  protected readonly submitted = signal(false);
 
   protected readonly form = this.fb.nonNullable.group({
     company: ['', Validators.required],
@@ -36,33 +33,24 @@ export class JobForm {
   });
 
   constructor() {
-    const id = this.editId();
-    if (id) {
-      const job = this.jobService.getJob(id);
+    effect(() => {
+      const job = this.job();
       if (job) {
         this.form.patchValue(job);
       }
-    }
+    });
   }
 
   protected submit(): void {
+    this.submitted.set(true);
     if (this.form.invalid) {
-      this.form.markAllAsTouched();
       return;
     }
-
-    const value = this.form.getRawValue();
-    const id = this.editId();
-    if (id) {
-      this.jobService.updateJob(id, value);
-    } else {
-      this.jobService.addJob(value);
-    }
-    this.router.navigate(['/jobs']);
+    this.save.emit(this.form.getRawValue());
   }
 
   protected cancel(): void {
-    this.router.navigate(['/jobs']);
+    this.cancelled.emit();
   }
 
   private today(): string {

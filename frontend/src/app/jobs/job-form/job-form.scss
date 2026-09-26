@@ -1,19 +1,24 @@
-.job-form-page {
-  min-height: calc(100vh - 64px);
-  background-color: var(--color-canvas-light);
-  padding: var(--space-xxl) var(--space-lg);
+.job-form-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
   display: flex;
+  align-items: center;
   justify-content: center;
+  padding: var(--space-lg);
+  background-color: rgba(11, 14, 17, 0.6);
 }
 
 .job-form-card {
   width: 100%;
   max-width: 480px;
+  max-height: calc(100vh - var(--space-xxl));
+  overflow-y: auto;
   background-color: var(--color-canvas-light);
-  border: 1px solid var(--color-hairline-on-light);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   font-family: var(--font-nova);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
 
   h1 {
     margin: 0 0 var(--space-lg);

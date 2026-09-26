@@ -1,13 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { JOB_STATUSES, JobStatus } from '../job.model';
+import { JOB_STATUSES, JobApplication, JobStatus } from '../job.model';
 import { JobService } from '../job.service';
+import { JobForm } from '../job-form/job-form';
 
 type StatusFilter = 'all' | JobStatus;
 
 @Component({
   selector: 'app-job-list',
-  imports: [RouterLink],
+  imports: [JobForm],
   templateUrl: './job-list.html',
   styleUrl: './job-list.scss',
 })
@@ -16,6 +16,9 @@ export class JobList {
 
   protected readonly statuses = JOB_STATUSES;
   protected readonly filter = signal<StatusFilter>('all');
+
+  protected readonly showForm = signal(false);
+  protected readonly editingJob = signal<JobApplication | null>(null);
 
   protected readonly jobs = this.jobService.allJobs;
   protected readonly statusCounts = this.jobService.statusCounts;
@@ -42,5 +45,30 @@ export class JobList {
     if (confirm('Remove this job from the list?')) {
       this.jobService.removeJob(id);
     }
+  }
+
+  protected openAddForm(): void {
+    this.editingJob.set(null);
+    this.showForm.set(true);
+  }
+
+  protected openEditForm(job: JobApplication): void {
+    this.editingJob.set(job);
+    this.showForm.set(true);
+  }
+
+  protected closeForm(): void {
+    this.showForm.set(false);
+    this.editingJob.set(null);
+  }
+
+  protected handleSave(value: Omit<JobApplication, 'id'>): void {
+    const job = this.editingJob();
+    if (job) {
+      this.jobService.updateJob(job.id, value);
+    } else {
+      this.jobService.addJob(value);
+    }
+    this.closeForm();
   }
 }

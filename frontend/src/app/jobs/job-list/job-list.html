@@ -1,7 +1,9 @@
 <section class="job-list-page">
   <header class="page-header">
     <h1>Job Applications</h1>
-    <a class="btn-primary-pill" routerLink="/jobs/add">+ Add job</a>
+    <button class="btn-primary-pill" type="button" (click)="openAddForm()">
+      + Add job
+    </button>
   </header>
 
   <div class="stats">
@@ -80,9 +82,13 @@
                 }
               </td>
               <td class="actions">
-                <a class="text-link" [routerLink]="['/jobs', job.id, 'edit']"
-                  >Edit</a
+                <button
+                  type="button"
+                  class="text-link-btn"
+                  (click)="openEditForm(job)"
                 >
+                  Edit
+                </button>
                 <button type="button" (click)="removeJob(job.id)">
                   Delete
                 </button>
@@ -95,4 +101,12 @@
       <p class="empty-state">No jobs in this filter yet.</p>
     }
   </div>
+
+  @if (showForm()) {
+    <app-job-form
+      [job]="editingJob()"
+      (save)="handleSave($event)"
+      (cancelled)="closeForm()"
+    />
+  }
 </section>

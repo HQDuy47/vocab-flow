@@ -1,14 +1,12 @@
-<section class="job-form-page">
-  <div class="job-form-card">
+<div class="job-form-backdrop" (click)="cancel()">
+  <div class="job-form-card" (click)="$event.stopPropagation()">
     <h1>{{ isEditMode() ? 'Edit job' : 'Add new job' }}</h1>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <label>
         Company
         <input type="text" formControlName="company" />
-        @if (
-          form.controls.company.invalid && form.controls.company.touched
-        ) {
+        @if (form.controls.company.invalid && submitted()) {
           <span class="error">Company is required</span>
         }
       </label>
@@ -16,9 +14,7 @@
       <label>
         Position
         <input type="text" formControlName="position" />
-        @if (
-          form.controls.position.invalid && form.controls.position.touched
-        ) {
+        @if (form.controls.position.invalid && submitted()) {
           <span class="error">Position is required</span>
         }
       </label>
@@ -57,4 +53,4 @@
       </div>
     </form>
   </div>
-</section>
+</div>
