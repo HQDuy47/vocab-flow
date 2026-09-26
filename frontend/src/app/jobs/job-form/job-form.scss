@@ -1,3 +1,23 @@
+@keyframes job-form-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes job-form-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .job-form-backdrop {
   position: fixed;
   inset: 0;
@@ -7,6 +27,7 @@
   justify-content: center;
   padding: var(--space-lg);
   background-color: rgba(11, 14, 17, 0.6);
+  animation: job-form-backdrop-in 0.18s ease-out;
 }
 
 .job-form-card {
@@ -14,17 +35,19 @@
   max-width: 480px;
   max-height: calc(100vh - var(--space-xxl));
   overflow-y: auto;
-  background-color: var(--color-canvas-light);
+  background-color: var(--color-surface-elevated-dark);
+  border: 1px solid var(--color-hairline-on-dark);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   font-family: var(--font-nova);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+  animation: job-form-card-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 
   h1 {
     margin: 0 0 var(--space-lg);
     font-size: 24px;
     font-weight: 600;
-    color: var(--color-ink);
+    color: var(--color-on-dark);
   }
 }
 
@@ -40,20 +63,21 @@ label {
   gap: var(--space-xxs);
   font-size: 14px;
   font-weight: 500;
-  color: var(--color-body-on-light);
+  color: var(--color-body);
 
   input,
   select,
   textarea {
     height: 40px;
     padding: 10px var(--space-md);
-    border: 1px solid var(--color-hairline-on-light);
+    border: 1px solid var(--color-hairline-on-dark);
     border-radius: var(--radius-md);
-    background-color: var(--color-canvas-light);
-    color: var(--color-ink);
+    background-color: var(--color-surface-card-dark);
+    color: var(--color-on-dark);
     font-family: var(--font-nova);
     font-size: 14px;
     font-weight: 400;
+    transition: border-color 0.15s ease;
 
     &:focus {
       outline: none;
@@ -71,10 +95,18 @@ label {
 .error {
   // Not a design-system token: DESIGN.md reserves trading-up/down for price
   // direction and explicitly forbids repurposing them for generic error
-  // states, so form validation gets its own color.
-  color: #b42318;
+  // states, so form validation gets its own color (brightened for the dark
+  // modal surface).
+  color: #ff8a8a;
   font-size: 12px;
   font-weight: 400;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-form-backdrop,
+  .job-form-card {
+    animation: none;
+  }
 }
 
 .form-actions {
@@ -91,15 +123,16 @@ label {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.15s ease;
   }
 
   .btn-secondary {
-    border: 1px solid var(--color-hairline-on-light);
-    background-color: var(--color-canvas-light);
-    color: var(--color-ink);
+    border: 1px solid var(--color-hairline-on-dark);
+    background-color: transparent;
+    color: var(--color-on-dark);
 
     &:hover {
-      background-color: var(--color-surface-strong-light);
+      background-color: var(--color-surface-card-dark);
     }
   }
 
