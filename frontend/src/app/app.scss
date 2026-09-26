@@ -1,17 +1,45 @@
 .app-nav {
   display: flex;
-  gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  background: #111827;
-  font-family: system-ui, sans-serif;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 var(--space-xl);
+  background-color: var(--color-canvas-dark);
+  border-bottom: 1px solid var(--color-hairline-on-dark);
 
-  a {
-    color: #d1d5db;
-    text-decoration: none;
-    font-weight: 500;
+  &__brand {
+    font-family: var(--font-nova);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--color-on-dark);
 
-    &:hover {
-      color: #fff;
+    span {
+      color: var(--color-primary);
+    }
+  }
+
+  &__links {
+    display: flex;
+    gap: var(--space-lg);
+
+    a {
+      font-family: var(--font-nova);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-muted-strong);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        color: var(--color-on-dark);
+      }
+
+      &.active {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+      }
     }
   }
 }

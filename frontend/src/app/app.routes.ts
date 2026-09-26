@@ -3,11 +3,6 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   { path: '', redirectTo: 'jobs', pathMatch: 'full' },
   {
-    path: 'vocab',
-    loadComponent: () =>
-      import('./vocab-page/vocab-page').then((m) => m.VocabPage),
-  },
-  {
     path: 'jobs',
     loadComponent: () =>
       import('./jobs/job-list/job-list').then((m) => m.JobList),

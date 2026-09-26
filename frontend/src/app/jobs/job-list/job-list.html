@@ -1,73 +1,96 @@
 <section class="job-list-page">
   <header class="page-header">
     <h1>Quản lý Apply Job</h1>
-    <a class="btn-primary" routerLink="/jobs/add">+ Thêm job</a>
+    <a class="btn-primary-pill" routerLink="/jobs/add">+ Thêm job</a>
   </header>
 
   <div class="stats">
-    <span class="stat">Tổng: {{ jobs().length }}</span>
-    <span class="stat">Đã nộp: {{ statusCounts().applied }}</span>
-    <span class="stat">Phỏng vấn: {{ statusCounts().interview }}</span>
-    <span class="stat">Offer: {{ statusCounts().offer }}</span>
-    <span class="stat">Từ chối: {{ statusCounts().rejected }}</span>
+    <div class="stat-card">
+      <span class="stat-card__value">{{ jobs().length }}</span>
+      <span class="stat-card__label">Tổng</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">{{ statusCounts().applied }}</span>
+      <span class="stat-card__label">Đã nộp</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">{{ statusCounts().interview }}</span>
+      <span class="stat-card__label">Phỏng vấn</span>
+    </div>
+    <div class="stat-card stat-card--highlight">
+      <span class="stat-card__value">{{ statusCounts().offer }}</span>
+      <span class="stat-card__label">Offer</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">{{ statusCounts().rejected }}</span>
+      <span class="stat-card__label">Từ chối</span>
+    </div>
   </div>
 
-  <div class="filters">
-    <button [class.active]="filter() === 'all'" (click)="setFilter('all')">
-      Tất cả
-    </button>
-    @for (s of statuses; track s.value) {
-      <button
-        [class.active]="filter() === s.value"
-        (click)="setFilter(s.value)"
-      >
-        {{ s.label }}
+  <div class="job-table-card">
+    <div class="tabs">
+      <button [class.active]="filter() === 'all'" (click)="setFilter('all')">
+        Tất cả
       </button>
+      @for (s of statuses; track s.value) {
+        <button
+          [class.active]="filter() === s.value"
+          (click)="setFilter(s.value)"
+        >
+          {{ s.label }}
+        </button>
+      }
+    </div>
+
+    @if (filteredJobs().length > 0) {
+      <table class="job-table">
+        <thead>
+          <tr>
+            <th>Công ty</th>
+            <th>Vị trí</th>
+            <th>Ngày nộp</th>
+            <th>Trạng thái</th>
+            <th>Link</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (job of filteredJobs(); track job.id) {
+            <tr>
+              <td class="cell-strong">{{ job.company }}</td>
+              <td>{{ job.position }}</td>
+              <td class="cell-number">{{ job.appliedDate }}</td>
+              <td>
+                <select
+                  class="status-select"
+                  [class.status-select--offer]="job.status === 'offer'"
+                  [value]="job.status"
+                  (change)="onStatusChange(job.id, $event)"
+                >
+                  @for (s of statuses; track s.value) {
+                    <option [value]="s.value">{{ s.label }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                @if (job.link) {
+                  <a class="text-link" [href]="job.link" target="_blank" rel="noopener"
+                    >Link</a
+                  >
+                }
+              </td>
+              <td class="actions">
+                <a class="text-link" [routerLink]="['/jobs', job.id, 'edit']"
+                  >Sửa</a
+                >
+                <button type="button" (click)="removeJob(job.id)">Xóa</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p class="empty-state">Chưa có job nào ở mục này.</p>
     }
   </div>
-
-  @if (filteredJobs().length > 0) {
-    <table class="job-table">
-      <thead>
-        <tr>
-          <th>Công ty</th>
-          <th>Vị trí</th>
-          <th>Ngày nộp</th>
-          <th>Trạng thái</th>
-          <th>Link</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (job of filteredJobs(); track job.id) {
-          <tr>
-            <td>{{ job.company }}</td>
-            <td>{{ job.position }}</td>
-            <td>{{ job.appliedDate }}</td>
-            <td>
-              <select
-                [value]="job.status"
-                (change)="onStatusChange(job.id, $event)"
-              >
-                @for (s of statuses; track s.value) {
-                  <option [value]="s.value">{{ s.label }}</option>
-                }
-              </select>
-            </td>
-            <td>
-              @if (job.link) {
-                <a [href]="job.link" target="_blank" rel="noopener">Link</a>
-              }
-            </td>
-            <td class="actions">
-              <a [routerLink]="['/jobs', job.id, 'edit']">Sửa</a>
-              <button type="button" (click)="removeJob(job.id)">Xóa</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  } @else {
-    <p class="empty-state">Chưa có job nào ở mục này.</p>
-  }
 </section>

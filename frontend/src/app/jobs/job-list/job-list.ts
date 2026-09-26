@@ -43,8 +43,4 @@ export class JobList {
       this.jobService.removeJob(id);
     }
   }
-
-  protected statusLabel(status: JobStatus): string {
-    return this.statuses.find((s) => s.value === status)?.label ?? status;
-  }
 }

@@ -5,5 +5,6 @@ import { VocabCardComponent } from '../vocab-card/vocab-card';
   selector: 'app-vocab-page',
   imports: [VocabCardComponent],
   templateUrl: './vocab-page.html',
+  styleUrl: './vocab-page.scss',
 })
 export class VocabPage {}
