@@ -7,6 +7,10 @@
   background-color: var(--color-canvas-dark);
   border-bottom: 1px solid var(--color-hairline-on-dark);
 
+  @media (max-width: 480px) {
+    padding: 0 var(--space-md);
+  }
+
   &__brand {
     font-family: var(--font-nova);
     font-size: 18px;
